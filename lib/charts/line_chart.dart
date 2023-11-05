@@ -9,8 +9,6 @@ import 'package:bicrew/layout/adaptive.dart';
 import 'package:bicrew/layout/text_scale.dart';
 import 'package:bicrew/colors.dart';
 import 'package:bicrew/data.dart';
-import 'package:bicrew/formatters.dart';
-import 'package:intl/intl.dart' as intl;
 
 class RallyLineChart extends StatelessWidget {
   const RallyLineChart({
@@ -24,8 +22,6 @@ class RallyLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: RallyLineChartPainter(
-        dateFormat: dateFormatMonthYear(context),
-        numberFormat: usdWithSignFormat(context),
         events: events,
         labelStyle: Theme.of(context).textTheme.bodyMedium!,
         textDirection: TextDirection.ltr,
@@ -40,8 +36,6 @@ class RallyLineChart extends StatelessWidget {
 
 class RallyLineChartPainter extends CustomPainter {
   RallyLineChartPainter({
-    required this.dateFormat,
-    required this.numberFormat,
     required this.events,
     required this.labelStyle,
     required this.textDirection,
@@ -60,12 +54,6 @@ class RallyLineChartPainter extends CustomPainter {
 
   // The padding around the text.
   final EdgeInsets padding;
-
-  // The format for the dates.
-  final intl.DateFormat dateFormat;
-
-  // The currency format.
-  final intl.NumberFormat numberFormat;
 
   // Events to plot on the line as points.
   final List<DetailedEventData> events;
@@ -152,7 +140,7 @@ class RallyLineChartPainter extends CustomPainter {
           rect: Offset((i / numGroups) * size.width, 0) &
               Size(size.width / numGroups, size.height),
           properties: SemanticsProperties(
-            label: numberFormat.format(medians[i]),
+            label: medians[i].toString(),
             textDirection: textDirection,
           ),
         );
@@ -256,7 +244,7 @@ class RallyLineChartPainter extends CustomPainter {
     // independent Unicode mapping and thus only works in some languages.
     final leftLabel = TextPainter(
       text: TextSpan(
-        text: dateFormat.format(startDate).toUpperCase(),
+        text: startDate.toString().toUpperCase(),
         style: unselectedLabelStyle,
       ),
       textDirection: textDirection,
@@ -267,8 +255,8 @@ class RallyLineChartPainter extends CustomPainter {
 
     final centerLabel = TextPainter(
       text: TextSpan(
-        text: dateFormat
-            .format(DateTime(startDate.year, startDate.month + 1))
+        text: DateTime(startDate.year, startDate.month + 1)
+            .toString()
             .toUpperCase(),
         style: selectedLabelStyle,
       ),
@@ -281,8 +269,8 @@ class RallyLineChartPainter extends CustomPainter {
 
     final rightLabel = TextPainter(
       text: TextSpan(
-        text: dateFormat
-            .format(DateTime(startDate.year, startDate.month + 2))
+        text: DateTime(startDate.year, startDate.month + 2)
+            .toString()
             .toUpperCase(),
         style: unselectedLabelStyle,
       ),

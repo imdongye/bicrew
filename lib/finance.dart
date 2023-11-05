@@ -14,7 +14,6 @@ import 'package:bicrew/charts/pie_chart.dart';
 import 'package:bicrew/charts/vertical_fraction_bar.dart';
 import 'package:bicrew/colors.dart';
 import 'package:bicrew/data.dart';
-import 'package:bicrew/formatters.dart';
 
 class FinancialEntityView extends StatelessWidget {
   const FinancialEntityView({
@@ -213,7 +212,7 @@ FinancialEntityCategoryView buildFinancialEntityFromAccountData(
   int accountDataIndex,
   BuildContext context,
 ) {
-  final amount = usdWithSignFormat(context).format(model.primaryAmount);
+  final amount = "${model.primaryAmount}달러";
   final shortAccountNumber = model.accountNumber.substring(6);
   return FinancialEntityCategoryView(
     suffix: const Icon(Icons.chevron_right, color: Colors.grey),
@@ -231,7 +230,7 @@ FinancialEntityCategoryView buildFinancialEntityFromBillData(
   int billDataIndex,
   BuildContext context,
 ) {
-  final amount = usdWithSignFormat(context).format(model.primaryAmount);
+  final amount = "${model.primaryAmount}달러";
   return FinancialEntityCategoryView(
     suffix: const Icon(Icons.chevron_right, color: Colors.grey),
     title: model.name,
@@ -248,10 +247,9 @@ FinancialEntityCategoryView buildFinancialEntityFromBudgetData(
   int budgetDataIndex,
   BuildContext context,
 ) {
-  final amountUsed = usdWithSignFormat(context).format(model.amountUsed);
-  final primaryAmount = usdWithSignFormat(context).format(model.primaryAmount);
-  final amount =
-      usdWithSignFormat(context).format(model.primaryAmount - model.amountUsed);
+  final amountUsed = model.amountUsed;
+  final primaryAmount = model.primaryAmount;
+  final amount = model.primaryAmount - model.amountUsed;
 
   return FinancialEntityCategoryView(
     suffix: Text(
@@ -267,7 +265,7 @@ FinancialEntityCategoryView buildFinancialEntityFromBudgetData(
         '${model.name} 예산 ${model.primaryAmount} 중 ${model.amountUsed} 사용, $amount 남음',
     indicatorColor: RallyColors.budgetColor(budgetDataIndex),
     indicatorFraction: model.amountUsed / model.primaryAmount,
-    amount: amount,
+    amount: amount.toString(),
   );
 }
 
@@ -427,7 +425,7 @@ class _EventAmount extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Text(
-      usdWithSignFormat(context).format(amount),
+      '$amount 달러',
       style: textTheme.bodyLarge!.copyWith(
         fontSize: 20,
         color: RallyColors.gray,
@@ -445,8 +443,8 @@ class _EventDate extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Text(
-      shortDateFormat(context).format(date),
-      semanticsLabel: longDateFormat(context).format(date),
+      date.toString(),
+      semanticsLabel: date.toString(),
       style: textTheme.bodyMedium!.copyWith(color: RallyColors.gray60),
     );
   }

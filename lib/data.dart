@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:bicrew/formatters.dart';
 
 /// Calculates the sum of the primary amounts of a list of [AccountData].
 double sumAccountDataPrimaryAmount(List<AccountData> items) =>
@@ -170,23 +169,23 @@ class DummyDataService {
     return <UserDetailData>[
       UserDetailData(
         title: "연이율",
-        value: percentFormat(context).format(0.001),
+        value: "0.001",
       ),
       UserDetailData(
         title: "이율",
-        value: usdWithSignFormat(context).format(1676.14),
+        value: "1676.14",
       ),
       UserDetailData(
         title: "연간 발생 이자",
-        value: usdWithSignFormat(context).format(81.45),
+        value: "81.45",
       ),
       UserDetailData(
         title: "작년 지급 이자",
-        value: usdWithSignFormat(context).format(987.12),
+        value: "987.12",
       ),
       UserDetailData(
         title: "다음명세서",
-        value: shortDateFormat(context).format(DateTime.utc(2019, 12, 25)),
+        value: (DateTime.utc(2019, 12, 25)).toString(),
       ),
       UserDetailData(
         title: "계정 소유자",
@@ -242,27 +241,23 @@ class DummyDataService {
       BillData(
         name: 'RedPay Credit',
         primaryAmount: 45.36,
-        dueDate: dateFormatAbbreviatedMonthDay(context)
-            .format(DateTime.utc(2019, 1, 29)),
+        dueDate: (DateTime.utc(2019, 1, 29)).toString(),
       ),
       BillData(
         name: 'Rent',
         primaryAmount: 1200,
-        dueDate: dateFormatAbbreviatedMonthDay(context)
-            .format(DateTime.utc(2019, 2, 9)),
+        dueDate: (DateTime.utc(2019, 2, 9)).toString(),
         isPaid: true,
       ),
       BillData(
         name: 'TabFine Credit',
         primaryAmount: 87.33,
-        dueDate: dateFormatAbbreviatedMonthDay(context)
-            .format(DateTime.utc(2019, 2, 22)),
+        dueDate: (DateTime.utc(2019, 2, 22)).toString(),
       ),
       BillData(
         name: 'ABC Loans',
         primaryAmount: 400,
-        dueDate: dateFormatAbbreviatedMonthDay(context)
-            .format(DateTime.utc(2019, 2, 29)),
+        dueDate: (DateTime.utc(2019, 2, 29)).toString(),
       ),
     ];
   }
@@ -272,15 +267,15 @@ class DummyDataService {
     return <UserDetailData>[
       UserDetailData(
         title: "총액",
-        value: usdWithSignFormat(context).format(paidTotal + dueTotal),
+        value: (paidTotal + dueTotal).toString(),
       ),
       UserDetailData(
         title: "세부 금엑",
-        value: usdWithSignFormat(context).format(paidTotal),
+        value: (paidTotal).toString(),
       ),
       UserDetailData(
         title: "미결제 금액",
-        value: usdWithSignFormat(context).format(dueTotal),
+        value: (dueTotal).toString(),
       ),
     ];
   }
@@ -315,15 +310,15 @@ class DummyDataService {
     return <UserDetailData>[
       UserDetailData(
         title: "총 한도",
-        value: usdWithSignFormat(context).format(capTotal),
+        value: (capTotal).toString(),
       ),
       UserDetailData(
         title: "사용 금액",
-        value: usdWithSignFormat(context).format(usedTotal),
+        value: (usedTotal).toString(),
       ),
       UserDetailData(
         title: "남은 금액",
-        value: usdWithSignFormat(context).format(capTotal - usedTotal),
+        value: (capTotal - usedTotal).toString(),
       ),
     ];
   }
@@ -341,23 +336,19 @@ class DummyDataService {
   static List<AlertData> getAlerts(BuildContext context) {
     return <AlertData>[
       AlertData(
-        message:
-            '알림: 이번 달 쇼핑 예산의 ${percentFormat(context, decimalDigits: 0).format(0.9)}를 사용했습니다.',
+        message: '알림: 이번 달 쇼핑 예산의 를 사용했습니다.',
         iconData: Icons.sort,
       ),
       AlertData(
-        message:
-            '이번 주에 음식점에서 ${usdWithSignFormat(context, decimalDigits: 0).format(120)}을(를) 사용했습니다.',
+        message: '이번 주에 음식점에서 을(를) 사용했습니다.',
         iconData: Icons.sort,
       ),
       AlertData(
-        message:
-            '이번 달에 ATM 수수료로 ${usdWithSignFormat(context, decimalDigits: 0).format(24)}을(를) 사용했습니다.',
+        message: '이번 달에 ATM 수수료로 을(를) 사용했습니다.',
         iconData: Icons.credit_card,
       ),
       AlertData(
-        message:
-            '잘하고 계십니다. 입출금계좌 잔고가 지난달에 비해 ${percentFormat(context, decimalDigits: 0).format(0.04)} 많습니다.',
+        message: '잘하고 계십니다. 입출금계좌 잔고가 지난달에 비해  많습니다.',
         iconData: Icons.attach_money,
       ),
       AlertData(

@@ -11,7 +11,6 @@ import 'package:bicrew/layout/text_scale.dart';
 import 'package:bicrew/colors.dart';
 import 'package:bicrew/data.dart';
 import 'package:bicrew/finance.dart';
-import 'package:bicrew/formatters.dart';
 
 /// A page that shows a status overview.
 class OverviewView extends StatefulWidget {
@@ -261,7 +260,7 @@ class _FinancialView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
                     child: SelectableText(
-                      usdWithSignFormat(context).format(total),
+                      (total).toString(),
                       style: theme.textTheme.bodyLarge!.copyWith(
                         fontSize: 44 / reducedTextScale(context),
                         fontWeight: FontWeight.w600,

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:bicrew/layout/letter_spacing.dart';
 import 'package:bicrew/colors.dart';
 import 'package:bicrew/data.dart';
-import 'package:bicrew/formatters.dart';
 
 /// A colored piece of the [RallyPieChart].
 class RallyPieChartSegment {
@@ -183,7 +182,7 @@ class _AnimatedRallyPieChart extends AnimatedWidget {
                 style: labelTextStyle,
               ),
               SelectableText(
-                usdWithSignFormat(context).format(centerAmount),
+                (centerAmount).toString(),
                 style: headlineStyle,
               ),
             ],

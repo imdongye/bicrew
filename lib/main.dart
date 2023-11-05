@@ -12,7 +12,6 @@ void main() async {
     await windowManager.show();
     await windowManager.focus();
   });
-
   //runApp(const MainApp());
   runApp(const RallyApp());
 }
