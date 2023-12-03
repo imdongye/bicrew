@@ -7,7 +7,7 @@ import 'dart:ui';
 /// Most color assignments in Rally are not like the typical color
 /// assignments that are common in other apps. Instead of primarily mapping to
 /// component type and part, they are assigned round robin based on layout.
-class RallyColors {
+class BicrewColors {
   static const List<Color> accountColors = <Color>[
     Color(0xFF005D57),
     Color(0xFF04B97F),

@@ -59,11 +59,11 @@ class FinancialEntityView extends StatelessWidget {
           Container(
             height: 1,
             constraints: BoxConstraints(maxWidth: maxWidth),
-            color: RallyColors.inputBackground,
+            color: BicrewColors.inputBackground,
           ),
           Container(
             constraints: BoxConstraints(maxWidth: maxWidth),
-            color: RallyColors.cardBackground,
+            color: BicrewColors.cardBackground,
             child: Column(
               children: financialEntityCards,
             ),
@@ -111,8 +111,8 @@ class FinancialEntityCategoryView extends StatelessWidget {
         transitionType: ContainerTransitionType.fade,
         openBuilder: (context, openContainer) =>
             FinancialEntityCategoryDetailsPage(),
-        openColor: RallyColors.primaryBackground,
-        closedColor: RallyColors.primaryBackground,
+        openColor: BicrewColors.primaryBackground,
+        closedColor: BicrewColors.primaryBackground,
         closedElevation: 0,
         closedBuilder: (context, openContainer) {
           return TextButton(
@@ -151,7 +151,7 @@ class FinancialEntityCategoryView extends StatelessWidget {
                                 Text(
                                   subtitle,
                                   style: textTheme.bodyMedium!
-                                      .copyWith(color: RallyColors.gray60),
+                                      .copyWith(color: BicrewColors.gray60),
                                 ),
                               ],
                             ),
@@ -159,7 +159,7 @@ class FinancialEntityCategoryView extends StatelessWidget {
                               amount,
                               style: textTheme.bodyLarge!.copyWith(
                                 fontSize: 20,
-                                color: RallyColors.gray,
+                                color: BicrewColors.gray,
                               ),
                             ),
                           ],
@@ -177,7 +177,7 @@ class FinancialEntityCategoryView extends StatelessWidget {
                   height: 1,
                   indent: 16,
                   endIndent: 16,
-                  color: RallyColors.dividerColor,
+                  color: BicrewColors.dividerColor,
                 ),
               ],
             ),
@@ -219,7 +219,7 @@ FinancialEntityCategoryView buildFinancialEntityFromAccountData(
     title: model.name,
     subtitle: '• • • • • • $shortAccountNumber',
     semanticsLabel: '${model.name} 계좌 $shortAccountNumber 잔액은 $amount입니다.',
-    indicatorColor: RallyColors.accountColor(accountDataIndex),
+    indicatorColor: BicrewColors.accountColor(accountDataIndex),
     indicatorFraction: 1,
     amount: amount,
   );
@@ -236,7 +236,7 @@ FinancialEntityCategoryView buildFinancialEntityFromBillData(
     title: model.name,
     subtitle: model.dueDate,
     semanticsLabel: '${model.name} 청구서($amount) 결제 기한은 ${model.dueDate}입니다.',
-    indicatorColor: RallyColors.billColor(billDataIndex),
+    indicatorColor: BicrewColors.billColor(billDataIndex),
     indicatorFraction: 1,
     amount: amount,
   );
@@ -257,13 +257,13 @@ FinancialEntityCategoryView buildFinancialEntityFromBudgetData(
       style: Theme.of(context)
           .textTheme
           .bodyMedium!
-          .copyWith(color: RallyColors.gray60, fontSize: 10),
+          .copyWith(color: BicrewColors.gray60, fontSize: 10),
     ),
     title: model.name,
     subtitle: '$amountUsed / $primaryAmount',
     semanticsLabel:
         '${model.name} 예산 ${model.primaryAmount} 중 ${model.amountUsed} 사용, $amount 남음',
-    indicatorColor: RallyColors.budgetColor(budgetDataIndex),
+    indicatorColor: BicrewColors.budgetColor(budgetDataIndex),
     indicatorFraction: model.amountUsed / model.primaryAmount,
     amount: amount.toString(),
   );
@@ -407,7 +407,7 @@ class _DetailedEventCard extends StatelessWidget {
           SizedBox(
             height: 1,
             child: Container(
-              color: RallyColors.dividerColor,
+              color: BicrewColors.dividerColor,
             ),
           ),
         ],
@@ -428,7 +428,7 @@ class _EventAmount extends StatelessWidget {
       '$amount 달러',
       style: textTheme.bodyLarge!.copyWith(
         fontSize: 20,
-        color: RallyColors.gray,
+        color: BicrewColors.gray,
       ),
     );
   }
@@ -445,7 +445,7 @@ class _EventDate extends StatelessWidget {
     return Text(
       date.toString(),
       semanticsLabel: date.toString(),
-      style: textTheme.bodyMedium!.copyWith(color: RallyColors.gray60),
+      style: textTheme.bodyMedium!.copyWith(color: BicrewColors.gray60),
     );
   }
 }

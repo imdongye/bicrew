@@ -3,7 +3,10 @@ import 'package:window_manager/window_manager.dart';
 import 'app.dart';
 
 void main() async {
+  // 플렛폼 채널 바인딩
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 윈도우에서 창크기 모바일에 맞게 초기화
   await windowManager.ensureInitialized();
   WindowOptions windowOptions = const WindowOptions(
     size: Size(520, 1000),
@@ -12,8 +15,9 @@ void main() async {
     await windowManager.show();
     await windowManager.focus();
   });
+
   //runApp(const MainApp());
-  runApp(const RallyApp());
+  runApp(const BicrewApp());
 }
 
 class MainApp extends StatelessWidget {

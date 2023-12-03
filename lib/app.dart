@@ -7,33 +7,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bicrew/layout/letter_spacing.dart';
 import 'package:bicrew/colors.dart';
-import 'package:bicrew/home.dart';
-import 'package:bicrew/login.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bicrew/routes.dart' as routes;
+import 'package:bicrew/login.dart';
+import 'package:bicrew/lobby.dart';
+import 'package:bicrew/home.dart';
+import 'package:bicrew/namer_app.dart';
 
-/// The RallyApp is a MaterialApp with a theme and 2 routes.
-///
-/// The home route is the main page with tabs for sub pages.
-/// The login route is the initial route.
-class RallyApp extends StatelessWidget {
-  const RallyApp({super.key});
+class BicrewApp extends StatelessWidget {
+  const BicrewApp({super.key});
 
-  static const String loginRoute = routes.loginRoute;
-  static const String homeRoute = routes.homeRoute;
+  static const String loginRoute = '/bicrew/login';
+  static const String lobbyRoute = '/bicrew/lobby';
+  static const String homeRoute = '/bicrew';
+  static const String namerRoute = '/test/nammer_app'; // 테스트용 앱
 
+  // 화면전환 애니메이션
   final sharedZAxisTransitionBuilder = const SharedAxisPageTransitionsBuilder(
-    fillColor: RallyColors.primaryBackground,
+    fillColor: BicrewColors.primaryBackground,
     transitionType: SharedAxisTransitionType.scaled,
   );
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      restorationScopeId: 'rally_app',
-      title: 'Rally',
+      // 앱의 상태 저장
+      restorationScopeId: 'bicrew_app',
+      title: 'Bicrew',
       debugShowCheckedModeBanner: false,
-      theme: _buildRallyTheme().copyWith(
+      theme: _buildBicrewTheme().copyWith(
         //platform: GalleryOptions.of(context).platform,
         pageTransitionsTheme: PageTransitionsTheme(
           builders: {
@@ -42,45 +43,44 @@ class RallyApp extends StatelessWidget {
           },
         ),
       ),
-      // localizationsDelegates: GalleryLocalizations.localizationsDelegates,
-      // supportedLocales: GalleryLocalizations.supportedLocales,
-      // locale: GalleryOptions.of(context).locale,
       initialRoute: loginRoute,
       routes: <String, WidgetBuilder>{
-        homeRoute: (context) => const HomePage(),
         loginRoute: (context) => const LoginPage(),
+        lobbyRoute: (context) => const LobbyPage(),
+        homeRoute: (context) => const HomePage(),
+        namerRoute: (context) => const MyNamerApp(),
       },
     );
   }
 
-  ThemeData _buildRallyTheme() {
+  ThemeData _buildBicrewTheme() {
     final base = ThemeData.dark();
     return ThemeData(
       appBarTheme: const AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        backgroundColor: RallyColors.primaryBackground,
+        backgroundColor: BicrewColors.primaryBackground,
         elevation: 0,
       ),
-      scaffoldBackgroundColor: RallyColors.primaryBackground,
-      focusColor: RallyColors.focusColor,
-      textTheme: _buildRallyTextTheme(base.textTheme),
+      scaffoldBackgroundColor: BicrewColors.primaryBackground,
+      focusColor: BicrewColors.focusColor,
+      textTheme: _buildBicrewTextTheme(base.textTheme),
       inputDecorationTheme: const InputDecorationTheme(
         labelStyle: TextStyle(
-          color: RallyColors.gray,
+          color: BicrewColors.gray,
           fontWeight: FontWeight.w500,
         ),
         filled: true,
-        fillColor: RallyColors.inputBackground,
+        fillColor: BicrewColors.inputBackground,
         focusedBorder: InputBorder.none,
       ),
       visualDensity: VisualDensity.standard,
       colorScheme: base.colorScheme.copyWith(
-        primary: RallyColors.primaryBackground,
+        primary: BicrewColors.primaryBackground,
       ),
     );
   }
 
-  TextTheme _buildRallyTextTheme(TextTheme base) {
+  TextTheme _buildBicrewTextTheme(TextTheme base) {
     return base
         .copyWith(
           bodyMedium: GoogleFonts.robotoCondensed(

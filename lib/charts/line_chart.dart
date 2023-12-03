@@ -176,7 +176,7 @@ class RallyLineChartPainter extends CustomPainter {
 
   void _drawLine(Canvas canvas, Rect rect) {
     final linePaint = Paint()
-      ..color = RallyColors.accountColor(2)
+      ..color = BicrewColors.accountColor(2)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
@@ -223,7 +223,7 @@ class RallyLineChartPainter extends CustomPainter {
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1
-          ..color = RallyColors.gray25,
+          ..color = BicrewColors.gray25,
       );
     }
   }
@@ -236,7 +236,7 @@ class RallyLineChartPainter extends CustomPainter {
     );
     final unselectedLabelStyle = labelStyle.copyWith(
       fontWeight: FontWeight.w700,
-      color: RallyColors.gray25,
+      color: BicrewColors.gray25,
       fontSize: labelStyle.fontSize! * textScaleFactor,
     );
 

@@ -150,7 +150,7 @@ class _AlertsView extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsetsDirectional.only(start: 16, top: 4, bottom: 4),
-      color: RallyColors.cardBackground,
+      color: BicrewColors.cardBackground,
       child: Column(
         children: [
           Container(
@@ -176,7 +176,7 @@ class _AlertsView extends StatelessWidget {
             ),
           ),
           for (AlertData alert in alerts!) ...[
-            Container(color: RallyColors.primaryBackground, height: 1),
+            Container(color: BicrewColors.primaryBackground, height: 1),
             _Alert(alert: alert),
           ]
         ],
@@ -209,7 +209,7 @@ class _Alert extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: IconButton(
                   onPressed: () {},
-                  icon: Icon(alert.iconData, color: RallyColors.white60),
+                  icon: Icon(alert.iconData, color: BicrewColors.white60),
                 ),
               ),
             ),
@@ -241,7 +241,7 @@ class _FinancialView extends StatelessWidget {
     return FocusTraversalOrder(
       order: NumericFocusOrder(order!),
       child: Container(
-        color: RallyColors.cardBackground,
+        color: BicrewColors.cardBackground,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

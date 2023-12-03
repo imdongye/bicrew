@@ -30,7 +30,7 @@ List<RallyPieChartSegment> buildSegmentsFromAccountItems(
     items.length,
     (i) {
       return RallyPieChartSegment(
-        color: RallyColors.accountColor(i),
+        color: BicrewColors.accountColor(i),
         value: items[i].primaryAmount,
       );
     },
@@ -42,7 +42,7 @@ List<RallyPieChartSegment> buildSegmentsFromBillItems(List<BillData> items) {
     items.length,
     (i) {
       return RallyPieChartSegment(
-        color: RallyColors.billColor(i),
+        color: BicrewColors.billColor(i),
         value: items[i].primaryAmount,
       );
     },
@@ -55,7 +55,7 @@ List<RallyPieChartSegment> buildSegmentsFromBudgetItems(
     items.length,
     (i) {
       return RallyPieChartSegment(
-        color: RallyColors.budgetColor(i),
+        color: BicrewColors.budgetColor(i),
         value: items[i].primaryAmount - items[i].amountUsed,
       );
     },
@@ -270,7 +270,7 @@ class _RallyPieChartOutlineBoxPainter extends BoxPainter {
 
     // Paint a smaller inner circle to cover the painted arcs, so they are
     // display as segments.
-    final bgPaint = Paint()..color = RallyColors.primaryBackground;
+    final bgPaint = Paint()..color = BicrewColors.primaryBackground;
     canvas.drawArc(innerRect, 0, 2 * math.pi, true, bgPaint);
   }
 

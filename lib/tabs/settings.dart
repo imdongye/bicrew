@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:bicrew/layout/adaptive.dart';
 import 'package:bicrew/colors.dart';
 import 'package:bicrew/data.dart';
-import 'package:bicrew/routes.dart' as rally_route;
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -29,7 +28,7 @@ class _SettingsViewState extends State<SettingsView> {
                 in DummyDataService.getSettingsTitles(context)) ...[
               _SettingsItem(title),
               const Divider(
-                color: RallyColors.dividerColor,
+                color: BicrewColors.dividerColor,
                 height: 1,
               )
             ]
@@ -53,7 +52,7 @@ class _SettingsItem extends StatelessWidget {
         padding: EdgeInsets.zero,
       ),
       onPressed: () {
-        Navigator.of(context).restorablePushNamed(rally_route.loginRoute);
+        Navigator.of(context).restorablePushNamed('/bicrew/login');
       },
       child: Container(
         alignment: AlignmentDirectional.centerStart,
