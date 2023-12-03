@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:animations/animations.dart';
+import 'package:bicrew/speedometer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bicrew/layout/letter_spacing.dart';
@@ -10,6 +11,7 @@ import 'package:bicrew/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bicrew/login.dart';
 import 'package:bicrew/lobby.dart';
+import 'package:bicrew/speedometer.dart';
 import 'package:bicrew/home.dart';
 import 'package:bicrew/namer_app.dart';
 
@@ -18,6 +20,7 @@ class BicrewApp extends StatelessWidget {
 
   static const String loginRoute = '/bicrew/login';
   static const String lobbyRoute = '/bicrew/lobby';
+  static const String sppedometerRoute = '/bicrew/sppedometer';
   static const String homeRoute = '/bicrew';
   static const String namerRoute = '/test/nammer_app'; // 테스트용 앱
 
@@ -47,12 +50,14 @@ class BicrewApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         loginRoute: (context) => const LoginPage(),
         lobbyRoute: (context) => const LobbyPage(),
+        sppedometerRoute: (context) => const SpeedometerPage(),
         homeRoute: (context) => const HomePage(),
         namerRoute: (context) => const MyNamerApp(),
       },
     );
   }
 
+  // 테마 정보
   ThemeData _buildBicrewTheme() {
     final base = ThemeData.dark();
     return ThemeData(
@@ -76,6 +81,12 @@ class BicrewApp extends StatelessWidget {
       visualDensity: VisualDensity.standard,
       colorScheme: base.colorScheme.copyWith(
         primary: BicrewColors.primaryBackground,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: BicrewColors.buttonColor,
+          foregroundColor: Colors.black,
+        ),
       ),
     );
   }

@@ -35,10 +35,12 @@ class BicrewColors {
   static const Color white60 = Color(0x99FFFFFF);
   static const Color primaryBackground = Color(0xFF33333D);
   static const Color inputBackground = Color(0xFF26282F);
+  static const Color inputBtnBackground = Color(0xFF206454);
   static const Color cardBackground = Color(0x03FEFEFE);
-  static const Color buttonColor = Color(0xFF09AF79);
+  static const Color buttonColor = Color.fromARGB(255, 9, 175, 120);
   static const Color focusColor = Color(0xCCFFFFFF);
   static const Color dividerColor = Color(0xAA282828);
+  static const Color shadowColor = Color(0x40D8D8D8);
 
   /// Convenience method to get a single account color with position i.
   static Color accountColor(int i) {
