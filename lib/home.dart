@@ -5,10 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:bicrew/layout/adaptive.dart';
 import 'package:bicrew/layout/text_scale.dart';
-import 'package:bicrew/tabs/accounts.dart';
-import 'package:bicrew/tabs/bills.dart';
-import 'package:bicrew/tabs/budgets.dart';
-import 'package:bicrew/tabs/overview.dart';
+import 'package:bicrew/tabs/speedometer.dart';
+import 'package:bicrew/tabs/map.dart';
+import 'package:bicrew/tabs/crew.dart';
+import 'package:bicrew/tabs/msg.dart';
 import 'package:bicrew/tabs/settings.dart';
 
 const int tabCount = 5;
@@ -213,9 +213,9 @@ class _HomePageState extends State<HomePage>
   List<Widget> _buildTabViews() {
     return const [
       OverviewView(),
-      AccountsView(),
-      BillsView(),
-      BudgetsView(),
+      SpeedometerView(),
+      MapView(),
+      CrewView(),
       SettingsView(),
     ];
   }

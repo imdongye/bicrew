@@ -9,14 +9,14 @@ import 'package:bicrew/data.dart';
 import 'package:bicrew/finance.dart';
 import 'package:bicrew/tabs/sidebar.dart';
 
-class BudgetsView extends StatefulWidget {
-  const BudgetsView({super.key});
+class CrewView extends StatefulWidget {
+  const CrewView({super.key});
 
   @override
-  State<BudgetsView> createState() => _BudgetsViewState();
+  State<CrewView> createState() => _CrewViewState();
 }
 
-class _BudgetsViewState extends State<BudgetsView>
+class _CrewViewState extends State<CrewView>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {

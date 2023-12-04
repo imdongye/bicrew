@@ -10,7 +10,7 @@ import 'package:bicrew/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'login.dart';
 import 'lobby.dart';
-import 'speedometer.dart';
+import 'riding.dart';
 import 'home.dart';
 import 'namer_app.dart';
 
@@ -49,7 +49,7 @@ class BicrewApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         loginRoute: (context) => const LoginPage(),
         lobbyRoute: (context) => const LobbyPage(),
-        sppedometerRoute: (context) => const SpeedometerPage(),
+        sppedometerRoute: (context) => const RidingPage(),
         homeRoute: (context) => const HomePage(),
         namerRoute: (context) => const MyNamerApp(),
       },

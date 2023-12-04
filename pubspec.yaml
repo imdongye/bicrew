@@ -17,6 +17,11 @@ dependencies:
   rally_assets: ^3.0.1
   flutter_gallery_assets: ^1.0.2
   numberpicker: ^2.1.2
+  google_maps_flutter: ^2.5.0
+
+
+
+
 
   cupertino_icons: ^1.0.2
   english_words: ^4.0.0

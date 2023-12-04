@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:window_manager/window_manager.dart';
+// import 'package:window_manager/window_manager.dart';
 import 'app.dart';
 
 void main() async {
@@ -7,17 +7,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // 윈도우에서 창크기 모바일에 맞게 초기화
-  await windowManager.ensureInitialized();
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(520, 1000),
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
+  // await windowManager.ensureInitialized();
+  // WindowOptions windowOptions = const WindowOptions(
+  //   size: Size(520, 1000),
+  // );
+  // windowManager.waitUntilReadyToShow(windowOptions, () async {
+  //   await windowManager.show();
+  //   await windowManager.focus();
+  // });
 
-  //runApp(const MainApp());
-  runApp(const BicrewApp());
+  runApp(const MainApp());
+  // runApp(const BicrewApp());
 }
 
 class MainApp extends StatelessWidget {
