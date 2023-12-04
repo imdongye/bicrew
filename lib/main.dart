@@ -16,8 +16,8 @@ void main() async {
   //   await windowManager.focus();
   // });
 
-  runApp(const MainApp());
-  // runApp(const BicrewApp());
+  // runApp(const MainApp());
+  runApp(const BicrewApp());
 }
 
 class MainApp extends StatelessWidget {
