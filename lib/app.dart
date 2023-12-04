@@ -3,17 +3,16 @@
 // found in the LICENSE file.
 
 import 'package:animations/animations.dart';
-import 'package:bicrew/speedometer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bicrew/layout/letter_spacing.dart';
 import 'package:bicrew/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bicrew/login.dart';
-import 'package:bicrew/lobby.dart';
-import 'package:bicrew/speedometer.dart';
-import 'package:bicrew/home.dart';
-import 'package:bicrew/namer_app.dart';
+import 'login.dart';
+import 'lobby.dart';
+import 'speedometer.dart';
+import 'home.dart';
+import 'namer_app.dart';
 
 class BicrewApp extends StatelessWidget {
   const BicrewApp({super.key});
