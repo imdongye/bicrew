@@ -162,7 +162,7 @@ class _BicrewTabBar extends StatelessWidget {
         // Setting isScrollable to true prevents the tabs from being
         // wrapped in [Expanded] widgets, which allows for more
         // flexible sizes and size animations among tabs.
-        isScrollable: false,
+        isScrollable: true,
         labelPadding: EdgeInsets.zero,
         tabs: tabs,
         controller: tabController,
