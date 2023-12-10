@@ -99,7 +99,7 @@ class BicrewApp extends StatelessWidget {
             letterSpacing: letterSpacingOrNone(0.5),
           ),
           bodyLarge: GoogleFonts.eczar(
-            fontSize: 40,
+            fontSize: 14,
             fontWeight: FontWeight.w400,
             letterSpacing: letterSpacingOrNone(1.4),
           ),
@@ -108,7 +108,7 @@ class BicrewApp extends StatelessWidget {
             letterSpacing: letterSpacingOrNone(2.8),
           ),
           headlineSmall: GoogleFonts.eczar(
-            fontSize: 40,
+            fontSize: 20,
             fontWeight: FontWeight.w600,
             letterSpacing: letterSpacingOrNone(1.4),
           ),

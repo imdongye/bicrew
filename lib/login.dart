@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
 
   @override
   String get restorationId => 'login_page';
-
+//
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
     registerForRestoration(_usernameController, restorationId);
@@ -120,7 +120,7 @@ class _BicrewLogo extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 64),
       child: SizedBox(
-        height: 200,
+        height: 230,
         // 접근성에서 제외시키는 위젯
         child: ExcludeSemantics(
           // Todo: fade in

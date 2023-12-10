@@ -172,18 +172,16 @@ class _LobbyPageState extends State<LobbyPage> {
                       IconButton(
                         icon: const Icon(Icons.remove),
                         onPressed: () => setState(() {
-                          final newValue = nrCurMembers - 1;
-                          nrCurMembers =
-                              newValue.clamp(minNrMembers, maxNrMembers);
+                          final newValue = maxDistKM - 1;
+                          maxDistKM = newValue.clamp(0, 10);
                         }),
                       ),
                       Text('알림 거리 $maxDistKM KM'),
                       IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () => setState(() {
-                          final newValue = nrCurMembers + 1;
-                          nrCurMembers =
-                              newValue.clamp(minNrMembers, maxNrMembers);
+                          final newValue = maxDistKM + 1;
+                          maxDistKM = newValue.clamp(0, 10);
                         }),
                       ),
                     ],
