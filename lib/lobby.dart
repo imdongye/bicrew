@@ -15,6 +15,7 @@ class _LobbyPageState extends State<LobbyPage> {
   final TextEditingController crewPwCtrl = TextEditingController();
   var nrCurMembers = 5;
   var nrMembers = 5;
+  var maxDistKM = 2;
 
   void _currentCrewDialog() {
     showDialog(
@@ -118,7 +119,7 @@ class _LobbyPageState extends State<LobbyPage> {
         content: StatefulBuilder(
           builder: (context, setState) {
             return SizedBox(
-              height: 300,
+              height: 500,
               width: 300,
               child: Column(
                 children: [
@@ -146,6 +147,37 @@ class _LobbyPageState extends State<LobbyPage> {
                         }),
                       ),
                       Text('인원 수(방장 포함) : $nrCurMembers'),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () => setState(() {
+                          final newValue = nrCurMembers + 1;
+                          nrCurMembers =
+                              newValue.clamp(minNrMembers, maxNrMembers);
+                        }),
+                      ),
+                    ],
+                  ),
+                  NumberPicker(
+                    value: maxDistKM,
+                    minValue: 1,
+                    maxValue: 6,
+                    step: 1,
+                    axis: Axis.horizontal,
+                    itemHeight: 100,
+                    onChanged: (value) => setState(() => maxDistKM = value),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: () => setState(() {
+                          final newValue = nrCurMembers - 1;
+                          nrCurMembers =
+                              newValue.clamp(minNrMembers, maxNrMembers);
+                        }),
+                      ),
+                      Text('알림 거리 $maxDistKM KM'),
                       IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () => setState(() {
