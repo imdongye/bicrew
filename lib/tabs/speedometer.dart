@@ -10,6 +10,7 @@ import 'package:bicrew/colors.dart';
 import 'package:geolocator/geolocator.dart';
 
 Future<Position> getCurrentLocation() async {
+  LocationPermission permission = await Geolocator.requestPermission();
   Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
   return position;
@@ -67,7 +68,7 @@ class SpeedometerViewState extends State<SpeedometerView> {
     getCurrentLocation().then((Position position) {
       setState(() {
         _latitude = position.latitude;
-        if(_testMode) {
+        if (_testMode) {
           _latitude += _realtime * _realtime / 1000000000;
         }
         _longitude = position.longitude;
@@ -80,11 +81,12 @@ class SpeedometerViewState extends State<SpeedometerView> {
         if (_isRunning) {
           _seconds++;
           _currentSpeed = _distance * 3600;
-          if(_currentSpeed > _averageSpeed * 20 && _currentSpeed > 200) { // 속도가 비정상적으로 높을 때 예외 처리
+          if (_currentSpeed > _averageSpeed * 20 && _currentSpeed > 200) {
+            // 속도가 비정상적으로 높을 때 예외 처리
             _currentSpeed = _pCurrentSpeed;
             _sumDistance += _pCurrentSpeed / 3600;
-          }
-          else { // 정상적인 상황에서 속도 처리
+          } else {
+            // 정상적인 상황에서 속도 처리
             _sumDistance += _distance;
             _maxSpeed = math.max(_maxSpeed, _currentSpeed);
           }
@@ -152,7 +154,6 @@ class SpeedometerViewState extends State<SpeedometerView> {
         ),
         const SizedBox(height: 24),
         Container(
-
           constraints: BoxConstraints(maxWidth: maxWidth),
           color: BicrewColors.inputBackground,
         ),
@@ -165,7 +166,6 @@ class SpeedometerViewState extends State<SpeedometerView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   Text(
                     '위도: ${_latitude.toStringAsFixed(5)}',
                     style: TextStyle(fontSize: 16, color: Colors.grey),
@@ -184,7 +184,8 @@ class SpeedometerViewState extends State<SpeedometerView> {
                   children: [
                     Text(
                       '주행시간',
-                      style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                      style: TextStyle(
+                          fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
                     ),
                     Text(
                       _formatTime(_seconds),
@@ -199,7 +200,8 @@ class SpeedometerViewState extends State<SpeedometerView> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
+                      border: Border.all(
+                          color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
                       borderRadius: BorderRadius.circular(10), // 테두리 둥글기 설정
                     ),
                     width: 100,
@@ -208,7 +210,9 @@ class SpeedometerViewState extends State<SpeedometerView> {
                       children: [
                         Text(
                           '평균 속도',
-                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey), // Time 텍스트 스타일 변경
                         ),
                         Text(
                           '${_averageSpeed.toStringAsFixed(1)}',
@@ -216,7 +220,9 @@ class SpeedometerViewState extends State<SpeedometerView> {
                         ),
                         Text(
                           'km/h',
-                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey), // Time 텍스트 스타일 변경
                         ),
                       ],
                     ),
@@ -224,7 +230,8 @@ class SpeedometerViewState extends State<SpeedometerView> {
                   SizedBox(width: 20),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
+                      border: Border.all(
+                          color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
                       borderRadius: BorderRadius.circular(10), // 테두리 둥글기 설정
                     ),
                     width: 100,
@@ -233,7 +240,9 @@ class SpeedometerViewState extends State<SpeedometerView> {
                       children: [
                         Text(
                           '이동 거리',
-                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey), // Time 텍스트 스타일 변경
                         ),
                         Text(
                           '${_sumDistance.toStringAsFixed(2)}',
@@ -241,7 +250,9 @@ class SpeedometerViewState extends State<SpeedometerView> {
                         ),
                         Text(
                           'km',
-                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey), // Time 텍스트 스타일 변경
                         ),
                       ],
                     ),
@@ -249,7 +260,8 @@ class SpeedometerViewState extends State<SpeedometerView> {
                   SizedBox(width: 20),
                   Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
+                      border: Border.all(
+                          color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
                       borderRadius: BorderRadius.circular(10), // 테두리 둥글기 설정
                     ),
                     width: 100,
@@ -258,15 +270,19 @@ class SpeedometerViewState extends State<SpeedometerView> {
                       children: [
                         Text(
                           '최대 속도',
-                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey), // Time 텍스트 스타일 변경
                         ),
                         Text(
-                            '${_maxSpeed.toStringAsFixed(1)}',
+                          '${_maxSpeed.toStringAsFixed(1)}',
                           style: TextStyle(fontSize: 24),
                         ),
                         Text(
                           'km/h',
-                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey), // Time 텍스트 스타일 변경
                         ),
                       ],
                     ),
@@ -280,8 +296,11 @@ class SpeedometerViewState extends State<SpeedometerView> {
                   ElevatedButton(
                     onPressed: _startTimer,
                     style: _isRunning
-                        ? ElevatedButton.styleFrom(primary: Colors.cyanAccent) // _isRunning이 true일 때 버튼 색상을 빨간색으로 변경
-                        : ElevatedButton.styleFrom(), // _isRunning이 false일 때 기본 스타일 유지
+                        ? ElevatedButton.styleFrom(
+                            primary: Colors
+                                .cyanAccent) // _isRunning이 true일 때 버튼 색상을 빨간색으로 변경
+                        : ElevatedButton
+                            .styleFrom(), // _isRunning이 false일 때 기본 스타일 유지
                     child: Text('Start'),
                   ),
                   SizedBox(width: 20),
