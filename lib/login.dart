@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bicrew/app.dart';
 import 'package:bicrew/colors.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -66,10 +67,14 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
         'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users');
 
     // 요청
-    http.Response response = await http.post(url, body: {
-      "nickname": nicknameStr,
-      "password": passwordStr,
-    });
+    http.Response response = await http.post(
+      url,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode({
+        "nickname": nicknameStr,
+        "password": passwordStr,
+      }),
+    );
 
     if (response.statusCode == 200) {
       print("로그인 성공");
@@ -88,10 +93,14 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
         'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/login');
 
     // 요청
-    http.Response response = await http.post(url, body: {
-      "nickname": nicknameStr,
-      "password": passwordStr,
-    });
+    http.Response response = await http.post(
+      url,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode({
+        "nickname": nicknameStr,
+        "password": passwordStr,
+      }),
+    );
 
     if (response.statusCode == 200) {
       print("회원가입 성공");
