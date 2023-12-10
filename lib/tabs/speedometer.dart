@@ -16,7 +16,7 @@ Future<Position> getCurrentLocation() async {
 }
 
 double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-  return Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
+  return Geolocator.distanceBetween(lat1, lon1, lat2, lon2) / 1000.0;
 }
 
 class SpeedometerView extends StatefulWidget {
@@ -68,7 +68,7 @@ class SpeedometerViewState extends State<SpeedometerView> {
       setState(() {
         _latitude = position.latitude;
         if(_testMode) {
-          _latitude += _realtime * _realtime / 1000000000;
+          _latitude += _realtime * _realtime / 1000000;
         }
         _longitude = position.longitude;
 
