@@ -10,53 +10,32 @@ import 'package:bicrew/colors.dart';
 import 'package:geolocator/geolocator.dart';
 
 Future<Position> getCurrentLocation() async {
-  LocationPermission permission = await Geolocator.requestPermission();
   Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
   return position;
 }
 
-// 위도와 경도를 이용하여 두 지점 간의 거리를 계산하는 함수
 double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-  const double earthRadius = 6371.0; // 지구 반지름 단위:킬로미터
-
-  if (lat1 == lon1 && lat2 == lon2) {
-    return 0.0;
-  }
-
-  lat1 = _degreesToRadians(lat1);
-  lon1 = _degreesToRadians(lon1);
-  lat2 = _degreesToRadians(lat2);
-  lon2 = _degreesToRadians(lon2);
-  double distance = math.acos(math.sin(lat1) * math.sin(lat2) +
-          math.cos(lat1) * math.cos(lat2) * math.cos(lon2 - lon1)) *
-      earthRadius;
-  return distance; // 단위:킬로미터
-}
-
-double _degreesToRadians(double degrees) {
-  return degrees * (math.pi / 180);
+  return Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
 }
 
 class SpeedometerView extends StatefulWidget {
   const SpeedometerView({Key? key}) : super(key: key);
-
-  final double kiloPerHour = 20.0;
 
   @override
   State<SpeedometerView> createState() => SpeedometerViewState();
 }
 
 class SpeedometerViewState extends State<SpeedometerView> {
-  bool _testMode = true;
+  final bool _testMode = true;
 
   late Timer _timer;
-  late Position _previousPosition;
   int _seconds = 0;
   int _realtime = 0;
   bool _isRunning = false;
 
   double _currentSpeed = 0.0;
+  double _pCurrentSpeed = 0.0;
   double _averageSpeed = 0.0;
   double _maxSpeed = 0.0;
   double _distance = 0.0;
@@ -67,8 +46,6 @@ class SpeedometerViewState extends State<SpeedometerView> {
 
   double _pLatitude = 0.0;
   double _pLongitude = 0.0;
-
-  double _test = 0.0;
 
   @override
   void initState() {
@@ -86,35 +63,38 @@ class SpeedometerViewState extends State<SpeedometerView> {
     _realtime++;
     _pLatitude = _latitude;
     _pLongitude = _longitude;
+    _pCurrentSpeed = _currentSpeed;
     getCurrentLocation().then((Position position) {
       setState(() {
         _latitude = position.latitude;
-        //_latitude += _realtime * _realtime / 10000;
+        if(_testMode) {
+          _latitude += _realtime * _realtime / 1000000000;
+        }
         _longitude = position.longitude;
+
+        if (_realtime > 1) {
+          _distance =
+              calculateDistance(_latitude, _longitude, _pLatitude, _pLongitude);
+        }
+
+        if (_isRunning) {
+          _seconds++;
+          _currentSpeed = _distance * 3600;
+          if(_currentSpeed > _averageSpeed * 20 && _currentSpeed > 200) { // 속도가 비정상적으로 높을 때 예외 처리
+            _currentSpeed = _pCurrentSpeed;
+            _sumDistance += _pCurrentSpeed / 3600;
+          }
+          else { // 정상적인 상황에서 속도 처리
+            _sumDistance += _distance;
+            _maxSpeed = math.max(_maxSpeed, _currentSpeed);
+          }
+          _averageSpeed = _sumDistance * 3600 / _seconds;
+        }
       });
     }).catchError((error) {
       // Handle error if any
       print('Error fetching location: $error');
     });
-
-    if (_realtime > 0) {
-      _distance =
-          calculateDistance(_latitude, _longitude, _pLatitude, _pLongitude);
-      if (_testMode) {
-        _distance = _realtime / 3600;
-      }
-    }
-
-    if (_isRunning) {
-      _seconds++;
-      if (!_distance.isNaN) {
-        _sumDistance += _distance;
-        _currentSpeed = _distance * 3600;
-        _maxSpeed = math.max(_maxSpeed, _currentSpeed);
-        _averageSpeed = _sumDistance * 3600 / _seconds;
-        _test = _realtime + 0.0;
-      }
-    }
   }
 
   void _startTimer() {
@@ -136,6 +116,9 @@ class SpeedometerViewState extends State<SpeedometerView> {
       _realtime = 0;
       _sumDistance = 0;
       _maxSpeed = 0;
+      _averageSpeed = 0;
+      _currentSpeed = 0;
+      _pCurrentSpeed = 0;
     });
   }
 
@@ -162,14 +145,14 @@ class SpeedometerViewState extends State<SpeedometerView> {
           ),
           child: RallyPieChart(
             heroLabel: "km/h",
-            heroAmount: _currentSpeed,
-            wholeAmount: 60.0,
+            heroAmount: double.parse(_currentSpeed.toStringAsFixed(2)),
+            wholeAmount: -60.0,
             segments: buildSegmentsFromAccountItems(items),
           ),
         ),
         const SizedBox(height: 24),
         Container(
-          height: 1,
+
           constraints: BoxConstraints(maxWidth: maxWidth),
           color: BicrewColors.inputBackground,
         ),
@@ -178,15 +161,127 @@ class SpeedometerViewState extends State<SpeedometerView> {
           color: BicrewColors.cardBackground,
           child: Column(
             children: [
-              Text(
-                'Time: ${_formatTime(_seconds)}',
-                style: TextStyle(fontSize: 18),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  Text(
+                    '위도: ${_latitude.toStringAsFixed(5)}',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                  SizedBox(width: 140),
+                  Text(
+                    '경도: ${_longitude.toStringAsFixed(5)}',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
               ),
+              SizedBox(height: 1),
+              Container(
+                padding: EdgeInsets.all(8), // 텍스트 주변으로 여백 추가
+                child: Column(
+                  children: [
+                    Text(
+                      '주행시간',
+                      style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                    ),
+                    Text(
+                      _formatTime(_seconds),
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
+                      borderRadius: BorderRadius.circular(10), // 테두리 둥글기 설정
+                    ),
+                    width: 100,
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Column(
+                      children: [
+                        Text(
+                          '평균 속도',
+                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                        ),
+                        Text(
+                          '${_averageSpeed.toStringAsFixed(1)}',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                        Text(
+                          'km/h',
+                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
+                      borderRadius: BorderRadius.circular(10), // 테두리 둥글기 설정
+                    ),
+                    width: 100,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    child: Column(
+                      children: [
+                        Text(
+                          '이동 거리',
+                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                        ),
+                        Text(
+                          '${_sumDistance.toStringAsFixed(2)}',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                        Text(
+                          'km',
+                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 1.5), // 테두리 색과 굵기 설정
+                      borderRadius: BorderRadius.circular(10), // 테두리 둥글기 설정
+                    ),
+                    width: 100,
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Column(
+                      children: [
+                        Text(
+                          '최대 속도',
+                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                        ),
+                        Text(
+                            '${_maxSpeed.toStringAsFixed(1)}',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                        Text(
+                          'km/h',
+                          style: TextStyle(fontSize: 12, color: Colors.grey), // Time 텍스트 스타일 변경
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: _startTimer,
+                    style: _isRunning
+                        ? ElevatedButton.styleFrom(primary: Colors.cyanAccent) // _isRunning이 true일 때 버튼 색상을 빨간색으로 변경
+                        : ElevatedButton.styleFrom(), // _isRunning이 false일 때 기본 스타일 유지
                     child: Text('Start'),
                   ),
                   SizedBox(width: 20),
@@ -201,14 +296,10 @@ class SpeedometerViewState extends State<SpeedometerView> {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
             ],
           ),
         ),
-        Text('위도: ${_latitude.toStringAsFixed(4)}'),
-        Text('경도: ${_longitude.toStringAsFixed(4)}'),
-        Text('이동 거리: ${_sumDistance.toStringAsFixed(3)} km'),
-        Text('최대 속도: ${_maxSpeed.toStringAsFixed(1)} km/h'),
-        Text('평균 속도: ${_averageSpeed.toStringAsFixed(1)} km/h'),
       ],
     );
   }
