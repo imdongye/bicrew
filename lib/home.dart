@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage>
             child: RotatedBox(
               quarterTurns: verticalRotation,
               child: TabBarView(
-                controller: _tabController,
+                //controller: _tabController,
                 children: _buildTabViews().map(
                   (widget) {
                     // Revert the rotation on the tab views.

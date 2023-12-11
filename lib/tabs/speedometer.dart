@@ -28,7 +28,7 @@ class SpeedometerView extends StatefulWidget {
 }
 
 class SpeedometerViewState extends State<SpeedometerView> {
-  final bool _testMode = true;
+  final bool _testMode = false;
 
   late Timer _timer;
   int _seconds = 0;

@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:bicrew/colors.dart';
 
 Future<Position> getCurrentLocation() async {
   Position position = await Geolocator.getCurrentPosition(
@@ -23,12 +24,13 @@ class MapView extends StatefulWidget {
 }
 
 class MapViewState extends State<MapView> {
-  final bool _testMode = true;
+  final bool _testMode = false;
 
   late Timer _timer;
   late GoogleMapController mapController;
   Set<Marker> markers = Set();
 
+  double _time = 0;
   double _lat = 37.27632;
   double _lon = 127.0483;
 
@@ -73,6 +75,7 @@ class MapViewState extends State<MapView> {
       setState(() {
         _lat = position.latitude;
         _lon = position.longitude;
+        _time++;
         markers.add(
           Marker(
             markerId: MarkerId('my_location'),
@@ -107,13 +110,12 @@ class MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    const maxWidth = 400.0;
+    const maxWidth = 500.0;
     return Scaffold(
       appBar: AppBar(
         title: Text('Map View'),
       ),
-      body: Column(
-        children: [
+      body: Stack(children: <Widget>[
           Expanded(
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
@@ -129,10 +131,12 @@ class MapViewState extends State<MapView> {
           Container(
             constraints: BoxConstraints(maxWidth: maxWidth),
             height: 40,
+            width: maxWidth,
+            color: BicrewColors.inputBackground,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(width: 10),
+                SizedBox(width: 40),
                 Text(
                   '가장 멀리있는 크루원과의 거리: ',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
@@ -145,8 +149,9 @@ class MapViewState extends State<MapView> {
                       '${_maxCrewDistance.toStringAsFixed(1)}',
                       style: TextStyle(
                         fontSize: 16,
-                        color:
-                            _maxCrewDistance >= _allowDistance ? Colors.red : Colors.green,
+                        color: _maxCrewDistance >= _allowDistance
+                            ? Colors.red
+                            : Colors.green,
                       ),
                     )
                   ]),
@@ -159,8 +164,21 @@ class MapViewState extends State<MapView> {
               ],
             ),
           ),
+          Positioned(
+            top: 40,
+            left: 0,
+            child: Container(
+              height: 1000,
+              width: maxWidth,
+              color: (_maxCrewDistance >= _allowDistance && _time % 2 == 0)
+                  ? Colors.red.withOpacity(0.3)
+                  : Colors.red.withOpacity(0),
+            ),
+          )
         ],
       ),
     );
   }
 }
+
+
