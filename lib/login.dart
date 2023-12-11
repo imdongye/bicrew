@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bicrew/app.dart';
 import 'package:bicrew/colors.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,13 +27,134 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
     registerForRestoration(_passwordController, restorationId);
   }
 
+  void _statusDialog(String title, String text) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: BicrewColors.primaryBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        title: Text(title),
+        content: StatefulBuilder(
+          builder: (context, setState) {
+            return Text(text);
+          },
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).restorablePushNamed(BicrewApp.lobbyRoute);
+            },
+            child: const Text('강제이동'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _login(BuildContext context) async {
+    String nicknameStr = _usernameController.value.text;
+    String passwordStr = _passwordController.value.text;
+    final url = Uri.parse(
+        'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users');
+
+    // 요청
+    http.Response response = await http.post(
+      url,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode({
+        "nickname": nicknameStr,
+        "password": passwordStr,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("로그인 성공");
+      String? accessToken = response.headers["Authorization"]?.split(" ")[1];
+      Navigator.of(context).restorablePushNamed(BicrewApp.lobbyRoute);
+    } else {
+      _statusDialog("로그인 실패", "아이디 또는 비밀번호를 다시 입력해 주세요.");
+      print("로그인 실패");
+    }
+  }
+
+  void _join(BuildContext context) async {
+    String nicknameStr = _usernameController.value.text;
+    String passwordStr = _passwordController.value.text;
+    final url = Uri.parse(
+        'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/login');
+
+    // 요청
+    http.Response response = await http.post(
+      url,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode({
+        "nickname": nicknameStr,
+        "password": passwordStr,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print("회원가입 성공");
+    } else {
+      _statusDialog("회원가입 실패", "아이디 또는 비밀번호를 다시 입력해 주세요.");
+      print("회원가입 실패");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    const double rowMaxWidth = 500;
+
     return Scaffold(
       body: SafeArea(
-        child: _MainView(
-          usernameController: _usernameController.value,
-          passwordController: _passwordController.value,
+        child: Column(
+          children: [
+            Expanded(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: ListView(
+                  restorationId: 'login_list_view',
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  children: [
+                    const _BicrewLogo(),
+                    _UsernameInput(
+                      usernameController: _usernameController.value,
+                      maxWidth: rowMaxWidth,
+                    ),
+                    const SizedBox(height: 12),
+                    _PasswordInput(
+                      passwordController: _passwordController.value,
+                      maxWidth: rowMaxWidth,
+                    ),
+                    const SizedBox(height: 25),
+                    _LoginRow(
+                      onTap: () {
+                        _login(context);
+                      },
+                      maxWidth: rowMaxWidth,
+                    ),
+                    const SizedBox(height: 25),
+                    JoinRow(
+                      onTap: () {
+                        _join(context);
+                      },
+                      maxWidth: rowMaxWidth,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -42,73 +165,6 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-}
-
-// 전체적인 UI
-class _MainView extends StatelessWidget {
-  const _MainView({
-    this.usernameController,
-    this.passwordController,
-  });
-
-  final TextEditingController? usernameController;
-  final TextEditingController? passwordController;
-
-  void _login(BuildContext context) {
-    // Navigator.of(context).restorablePushNamed(BicrewApp.homeRoute);
-    Navigator.of(context).restorablePushNamed(BicrewApp.lobbyRoute);
-  }
-
-  void _join(BuildContext context) {
-    // Navigator.of(context).restorablePushNamed(BicrewApp.homeRoute);
-    Navigator.of(context).restorablePushNamed(BicrewApp.namerRoute);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    const double rowMaxWidth = 500;
-
-    return Column(
-      children: [
-        Expanded(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: ListView(
-              restorationId: 'login_list_view',
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              children: [
-                const _BicrewLogo(),
-                _UsernameInput(
-                  usernameController: usernameController,
-                  maxWidth: rowMaxWidth,
-                ),
-                const SizedBox(height: 12),
-                _PasswordInput(
-                  passwordController: passwordController,
-                  maxWidth: rowMaxWidth,
-                ),
-                const SizedBox(height: 25),
-                _LoginRow(
-                  onTap: () {
-                    _login(context);
-                  },
-                  maxWidth: rowMaxWidth,
-                ),
-                const SizedBox(height: 25),
-                JoinRow(
-                  onTap: () {
-                    _join(context);
-                  },
-                  maxWidth: rowMaxWidth,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
 

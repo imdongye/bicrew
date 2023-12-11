@@ -84,7 +84,7 @@ class MapViewState extends State<MapView> {
           _lat = 37.352209;
           _lon = 127.043639;
         }
-        for (var i = 0; i < _crewLat.length-2; i++) {
+        for (var i = 0; i < _crewLat.length; i++) {
           var crewDistance =
               calculateDistance(_lat, _lon, _crewLat[i], _crewLon[i]);
           _maxCrewDistance = math.max(_maxCrewDistance, crewDistance);

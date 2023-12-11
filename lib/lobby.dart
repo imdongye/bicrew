@@ -25,20 +25,10 @@ class _LobbyPageState extends State<LobbyPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
-        title: Text('현재 크루: ${crewNameCtrl.text}'),
+        title: Text("크루 참여 완료"),
         content: StatefulBuilder(
           builder: (context, setState) {
-            return SizedBox(
-              height: 68,
-              width: 300,
-              child: Column(
-                children: [
-                  const Text("모든 인원 참가까지 대기 중.."),
-                  const SizedBox(height: 20),
-                  Text("$nrCurMembers/$nrMembers"),
-                ],
-              ),
-            );
+            return Text('현재 크루: ${crewNameCtrl.text}');
           },
         ),
         actions: [
@@ -54,7 +44,47 @@ class _LobbyPageState extends State<LobbyPage> {
               Navigator.of(context)
                   .restorablePushNamed(BicrewApp.sppedometerRoute);
             },
-            child: const Text('강제 속도계 모드'),
+            child: const Text('속도계 모드로 이동'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _doneMakeCrewDialog(String id, String pw) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: BicrewColors.primaryBackground,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        title: Text("크루 생성 완료"),
+        content: StatefulBuilder(
+          builder: (context, setState) {
+            return SizedBox(
+              height: 120,
+              width: 300,
+              child: Column(
+                children: [
+                  Text("id: $id"),
+                  const SizedBox(height: 20),
+                  Text("pw: $pw"),
+                  const SizedBox(height: 20),
+                  Text("인원: $nrCurMembers"),
+                ],
+              ),
+            );
+          },
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .restorablePushNamed(BicrewApp.sppedometerRoute);
+            },
+            child: const Text('속도계 모드로 이동'),
           ),
         ],
       ),
@@ -201,7 +231,7 @@ class _LobbyPageState extends State<LobbyPage> {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
-              _currentCrewDialog();
+              _doneMakeCrewDialog(crewNameCtrl.text, crewPwCtrl.text);
             },
             child: const Text('만들기'),
           ),
