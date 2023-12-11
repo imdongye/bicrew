@@ -35,7 +35,7 @@ class MapViewState extends State<MapView> {
   double _lon = 127.0483;
 
   double _maxCrewDistance = -1;
-  double _allowDistance = 5;
+  double _allowDistance = 2;
   // 크루원 위치 정보(테스트용)
   List<double> _crewLat = [37.280115, 37.284169, 37.283001]; // 아주대 정문, 팔달관, 다산관
   List<double> _crewLon = [127.043639, 127.044408, 127.047262];
@@ -75,6 +75,10 @@ class MapViewState extends State<MapView> {
       setState(() {
         _lat = position.latitude;
         _lon = position.longitude;
+        if(_testMode){
+          _lat = 37.27543;
+          _lon = 127.06827;
+        }
         _time++;
         markers.add(
           Marker(
@@ -83,10 +87,6 @@ class MapViewState extends State<MapView> {
             infoWindow: InfoWindow(title: 'Me'),
           ),
         );
-        if(_testMode){
-          _lat = 37.352209;
-          _lon = 127.043639;
-        }
         for (var i = 0; i < _crewLat.length; i++) {
           var crewDistance =
               calculateDistance(_lat, _lon, _crewLat[i], _crewLon[i]);
@@ -164,17 +164,20 @@ class MapViewState extends State<MapView> {
               ],
             ),
           ),
-          Positioned(
-            top: 40,
-            left: 0,
-            child: Container(
-              height: 1000,
-              width: maxWidth,
-              color: (_maxCrewDistance >= _allowDistance && _time % 2 == 0)
-                  ? Colors.red.withOpacity(0.3)
-                  : Colors.red.withOpacity(0),
+          IgnorePointer(
+            ignoring: true,
+            child: Positioned(
+              top: 40,
+              left: 0,
+              child: Container(
+                height: 1000,
+                width: maxWidth,
+                color: (_maxCrewDistance >= _allowDistance && _time % 2 == 0)
+                    ? Colors.red.withOpacity(0.3)
+                    : Colors.red.withOpacity(0),
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
