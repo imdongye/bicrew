@@ -104,8 +104,10 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
 
     if (response.statusCode == 200) {
       print("회원가입 성공");
+      _statusDialog("회원가입 성공", "로그인버튼으로 접속해주세요${response.statusCode}");
     } else {
-      _statusDialog("회원가입 실패", "아이디 또는 비밀번호를 다시 입력해 주세요.");
+      _statusDialog(
+          "회원가입 실패", "아이디 또는 비밀번호를 다시 입력해 주세요.${response.statusCode}");
       print("회원가입 실패");
     }
   }
