@@ -28,7 +28,7 @@ class SpeedometerView extends StatefulWidget {
 }
 
 class SpeedometerViewState extends State<SpeedometerView> {
-  final bool _testMode = false;
+  final bool _testMode = true;
 
   late Timer _timer;
   int _seconds = 0;
@@ -69,7 +69,7 @@ class SpeedometerViewState extends State<SpeedometerView> {
       setState(() {
         _latitude = position.latitude;
         if (_testMode) {
-          _latitude += _realtime * _realtime / 1000000000;
+          _latitude += _realtime * _realtime / 10000000;
         }
         _longitude = position.longitude;
 

@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
     String nicknameStr = _usernameController.value.text;
     String passwordStr = _passwordController.value.text;
     final url = Uri.parse(
-        'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users');
+        'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/login');
 
     // 요청
     http.Response response = await http.post(
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
     String nicknameStr = _usernameController.value.text;
     String passwordStr = _passwordController.value.text;
     final url = Uri.parse(
-        'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users/login');
+        'http://ec2-52-79-236-34.ap-northeast-2.compute.amazonaws.com:8080/api/v1/users');
 
     // 요청
     http.Response response = await http.post(
@@ -104,10 +104,11 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
 
     if (response.statusCode == 200) {
       print("회원가입 성공");
-      _statusDialog("회원가입 성공", "로그인버튼으로 접속해주세요${response.statusCode}");
+      _statusDialog("회원가입 성공",
+          "로그인버튼으로 접속해주세요${nicknameStr}${passwordStr}${response.statusCode}");
     } else {
-      _statusDialog(
-          "회원가입 실패", "아이디 또는 비밀번호를 다시 입력해 주세요.${response.statusCode}");
+      _statusDialog("회원가입 실패",
+          "아이디 또는 비밀번호를 다시 입력해 주세요.${nicknameStr}${passwordStr}${response.statusCode}");
       print("회원가입 실패");
     }
   }
