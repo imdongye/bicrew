@@ -17,7 +17,7 @@ Future<Position> getCurrentLocation() async {
 }
 
 double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-  return Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
+  return Geolocator.distanceBetween(lat1, lon1, lat2, lon2) / 1000.0;
 }
 
 class SpeedometerView extends StatefulWidget {
@@ -28,7 +28,7 @@ class SpeedometerView extends StatefulWidget {
 }
 
 class SpeedometerViewState extends State<SpeedometerView> {
-  final bool _testMode = true;
+  final bool _testMode = false;
 
   late Timer _timer;
   int _seconds = 0;
@@ -136,6 +136,25 @@ class SpeedometerViewState extends State<SpeedometerView> {
     final items = DummyDataService.getAccountDataList(context);
     const maxWidth = 400.0;
 
+    List<AccountData> speed = [
+      AccountData(
+        name: '1', // 예시 이름
+        primaryAmount: 100, // 예시 주요 금액
+        accountNumber: '1234-5678-9012', // 예시 계좌 번호
+      ),
+      AccountData(
+        name: '2', // 예시 이름
+        primaryAmount: math.min(_currentSpeed, 60),
+        //primaryAmount: 100-_currentSpeed, // 예시 주요 금액
+        accountNumber: '1234-5678-9012', // 예시 계좌 번호
+      ),
+      AccountData(
+        name: '3', // 예시 이름
+        primaryAmount: math.max(_currentSpeed - 60, 0),
+        //primaryAmount: 100-_currentSpeed, // 예시 주요 금액
+        accountNumber: '1234-5678-9012', // 예시 계좌 번호
+      ),
+    ];
     return Column(
       children: [
         ConstrainedBox(
@@ -148,8 +167,8 @@ class SpeedometerViewState extends State<SpeedometerView> {
           child: RallyPieChart(
             heroLabel: "km/h",
             heroAmount: double.parse(_currentSpeed.toStringAsFixed(2)),
-            wholeAmount: -60.0,
-            segments: buildSegmentsFromAccountItems(items),
+            wholeAmount: 60,
+            segments: buildSegmentsFromAccountItems(speed),
           ),
         ),
         const SizedBox(height: 24),

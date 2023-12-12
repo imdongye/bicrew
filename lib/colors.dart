@@ -9,9 +9,9 @@ import 'dart:ui';
 /// component type and part, they are assigned round robin based on layout.
 class BicrewColors {
   static const List<Color> accountColors = <Color>[
-    Color(0xFF005D57),
     Color(0xFF04B97F),
-    Color(0xFF37EFBA),
+    Color(0xFFFFD400),
+    Color(0xFFFF3300),
     Color(0xFF007D51),
   ];
 
