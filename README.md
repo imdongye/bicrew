@@ -9,4 +9,6 @@ Flutter 예제 Rally App 앱을 템플릿으로 사용하여 개발하였음.
 
 ---
 
-[![](https://img.youtube.com/vi/mQcpEfkdyOo/0.jpg)](https://youtu.be/mQcpEfkdyOo, "유튜브링크")*유튜브링크*
+![](https://img.youtube.com/vi/mQcpEfkdyOo/0.jpg)
+
+[유튜브링크](https://youtu.be/mQcpEfkdyOo)
